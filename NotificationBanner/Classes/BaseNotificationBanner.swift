@@ -132,7 +132,7 @@ public class BaseNotificationBanner: UIView {
     var isSuspended: Bool = false
     
     /// The main window of the application which banner views are placed on
-    private let appWindow: UIWindow = UIApplication.shared.delegate!.window!!
+    private let appWindow: UIWindow
     
     /// The position the notification banner should slide in from
     private(set) var bannerPosition: BannerPosition!
@@ -164,6 +164,13 @@ public class BaseNotificationBanner: UIView {
     }
     
     init(style: BannerStyle, colors: BannerColorsProtocol? = nil) {
+
+        if let appWindow_ = UIApplication.shared.delegate!.window {
+            appWindow = appWindow_!
+        } else {
+            appWindow = UIApplication.shared.windows[0]
+        }
+
         super.init(frame: .zero)
         
         spacerView = UIView()
@@ -184,6 +191,12 @@ public class BaseNotificationBanner: UIView {
     }
     
     required public init?(coder aDecoder: NSCoder) {
+        if let appWindow_ = UIApplication.shared.delegate!.window {
+            appWindow = appWindow_!
+        } else {
+            appWindow = UIApplication.shared.windows[0]
+        }
+
         super.init(coder: aDecoder)
     }
     
